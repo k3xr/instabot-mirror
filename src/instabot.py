@@ -87,6 +87,7 @@ class InstaBot:
     is_self_checking = False
     is_by_tag = False
     is_follower_number = 0
+    has_more_followers_than_follows = False
 
     self_following = 0
     self_follower = 0
@@ -618,7 +619,7 @@ class InstaBot:
     def new_auto_mod_unfollow(self):
         if time.time() > self.next_iteration["Unfollow"] and \
                         self.unfollow_per_day != 0 and len(self.bot_follow_list) > 0:
-            if self.bot_mode == 0:
+            if self.bot_mode == 1:
                 for f in self.bot_follow_list:
                     if time.time() > (f[1] + self.follow_time):
                         log_string = "Trying to unfollow #%i: " % (
@@ -628,7 +629,7 @@ class InstaBot:
                         self.bot_follow_list.remove(f)
                         self.next_iteration["Unfollow"] = time.time() + \
                                                           self.add_time(self.unfollow_delay)
-            if self.bot_mode == 1:
+            if self.bot_mode == 0:
                 unfollow_protocol(self)
 
     def new_auto_mod_comments(self):
@@ -736,6 +737,8 @@ class InstaBot:
                         self.write_log(log_string)
                         log_string = "Media : %i" % (media)
                         self.write_log(log_string)
+                        if follower > follows:
+                            self.has_more_follwers_than_follows = True
                         if follows == 0:
                             self.is_selebgram = True
                             self.is_fake_account = False
@@ -784,7 +787,7 @@ class InstaBot:
             else:
                 return 0
 
-            if self.is_selebgram is not False or self.is_fake_account is not False or self.is_active_user is not True or self.is_follower is not True:
+            if self.has_more_followers_than_follows and not self.is_follower:
                 print(current_user)
                 self.unfollow(current_id)
                 try:
