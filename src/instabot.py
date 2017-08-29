@@ -332,7 +332,7 @@ class InstaBot:
                     self.media_by_tag = list(all_data['tag']['media']['nodes'])
                 except:
                     self.media_by_tag = []
-                    self.write_log("Except on get_media!")
+                    self.write_log("Except on get_media!!")
             else:
                 return 0
 
@@ -736,7 +736,11 @@ class InstaBot:
                         self.write_log(log_string)
                         log_string = "Media : %i" % (media)
                         self.write_log(log_string)
-                        if follower / follows > 2:
+                        if follows == 0:
+                            self.is_selebgram = True
+                            self.is_fake_account = False
+                            print('   >>>This is probably Selebgram account. Zero Follows')
+                        elif follower / follows > 2:
                             self.is_selebgram = True
                             self.is_fake_account = False
                             print('   >>>This is probably Selebgram account')
