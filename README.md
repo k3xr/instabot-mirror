@@ -1,5 +1,7 @@
 ## InstaBot
 
+Forked from https://github.com/instabot-py/instabot.py
+
 InstaBot v 1.1.0 
 
 If you want to join the instabot.py team or have something to say - <a href="https://github.com/LevPasha">write to me</a>.
