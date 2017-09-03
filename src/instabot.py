@@ -582,8 +582,8 @@ class InstaBot:
             # ------------------- Comment -------------------
             self.new_auto_mod_comments()
             # Bot iteration in 1 sec
+            print("Sleep 3")
             time.sleep(3)
-            # print("Tic!")
 
     def new_auto_mod_like(self):
         if time.time() > self.next_iteration["Like"] and self.like_per_day != 0 \
@@ -622,13 +622,11 @@ class InstaBot:
             if self.bot_mode == 1:
                 for f in self.bot_follow_list:
                     if time.time() > (f[1] + self.follow_time):
-                        log_string = "Trying to unfollow #%i: " % (
-                            self.unfollow_counter + 1)
+                        log_string = "Trying to unfollow #%i: " % (self.unfollow_counter + 1)
                         self.write_log(log_string)
                         self.auto_unfollow()
                         self.bot_follow_list.remove(f)
-                        self.next_iteration["Unfollow"] = time.time() + \
-                                                          self.add_time(self.unfollow_delay)
+                        self.next_iteration["Unfollow"] = time.time() + self.add_time(self.unfollow_delay)
             if self.bot_mode == 0:
                 unfollow_protocol(self)
 
