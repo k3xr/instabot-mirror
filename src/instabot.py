@@ -322,14 +322,13 @@ class InstaBot:
         """ Get media ID set, by your hashtag """
 
         if (self.login_status):
-            log_string = "Get media id by tag: %s" % (tag)
+            log_string = "Getting media id by tag: %s" % (tag)
             self.write_log(log_string)
             if self.login_status == 1:
                 url_tag = self.url_tag % (tag)
                 try:
                     r = self.s.get(url_tag)
                     all_data = json.loads(r.text)
-
                     self.media_by_tag = list(all_data['tag']['media']['nodes'])
                 except:
                     self.media_by_tag = []
@@ -571,8 +570,7 @@ class InstaBot:
             if len(self.media_by_tag) == 0:
                 self.get_media_id_by_tag(random.choice(self.tag_list))
                 self.this_tag_like_count = 0
-                self.max_tag_like_count = random.randint(
-                    1, self.max_like_for_one_tag)
+                self.max_tag_like_count = random.randint(1, self.max_like_for_one_tag)
             # ------------------- Like -------------------
             self.new_auto_mod_like()
             # ------------------- Follow -------------------
@@ -581,7 +579,6 @@ class InstaBot:
             self.new_auto_mod_unfollow()
             # ------------------- Comment -------------------
             self.new_auto_mod_comments()
-            # Bot iteration in 1 sec
             print("Sleep 3")
             time.sleep(3)
 
@@ -606,15 +603,12 @@ class InstaBot:
             if self.media_by_tag[0]["owner"]["id"] == self.user_id:
                 self.write_log("Keep calm - It's your own profile ;)")
                 return
-            log_string = "Trying to follow: %s" % (
-                self.media_by_tag[0]["owner"]["id"])
+            log_string = "Trying to follow: %s" % (self.media_by_tag[0]["owner"]["id"])
             self.write_log(log_string)
 
             if self.follow(self.media_by_tag[0]["owner"]["id"]) != False:
-                self.bot_follow_list.append(
-                    [self.media_by_tag[0]["owner"]["id"], time.time()])
-                self.next_iteration["Follow"] = time.time() + \
-                                                self.add_time(self.follow_delay)
+                self.bot_follow_list.append([self.media_by_tag[0]["owner"]["id"], time.time()])
+                self.next_iteration["Follow"] = time.time() + self.add_time(self.follow_delay)
 
     def new_auto_mod_unfollow(self):
         if time.time() > self.next_iteration["Unfollow"] and \
